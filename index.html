@@ -211,15 +211,15 @@ function salvarConfiguracao() {
 async function carregarDados() {
   const sheetId = localStorage.getItem(CONFIG_KEY);
   try {
-    const resumo = await carregarAba(0, 'RESUMO_MENSAL');
-    const faturamento = await carregarAba(1852761433, 'FATURAMENTO');
-    const profissionais = await carregarAba(576299438, 'PROFISSIONAIS');
-    const origem = await carregarAba(1391759105, 'ORIGEM');
-    const operacao = await carregarAba(323502276, 'INDICADORES_OPERACAO');
-    const equipe = await carregarAba(2133614227, 'INDICADORES_EQUIPE');
-    const qualidade = await carregarAba(1456590032, 'INDICADORES_QUALIDADE');
-    const resultado = await carregarAba(1070002876, 'INDICADORES_RESULTADO');
-    const alertas = await carregarAba(983090401, 'ALERTAS');
+    const resumo = await carregarAba(gid=0, 'RESUMO_MENSAL');
+    const faturamento = await carregarAba(gid=1852761433, 'FATURAMENTO');
+    const profissionais = await carregarAba(gid=576299438, 'PROFISSIONAIS');
+    const origem = await carregarAba(gid=1391759105, 'ORIGEM');
+    const operacao = await carregarAba(gid=323502276, 'INDICADORES_OPERACAO');
+    const equipe = await carregarAba(gid=2133614227, 'INDICADORES_EQUIPE');
+    const qualidade = await carregarAba(gid=1456590032, 'INDICADORES_QUALIDADE');
+    const resultado = await carregarAba(gid=1070002876, 'INDICADORES_RESULTADO');
+    const alertas = await carregarAba(gid=983090401, 'ALERTAS');
 
     dadosCache = {
       resumo: resumo || [],

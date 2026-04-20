@@ -1,524 +1,795 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dashboard BR Med</title>
-<style>
-* { margin: 0; padding: 0; box-sizing: border-box; }
-body { 
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
-  background: #f5f5f5; 
-  color: #333; 
-  padding: 2rem 1rem;
-}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard BR Med</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
 
-.container { max-width: 1200px; margin: 0 auto; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: #f5f5f5;
+      color: #333;
+      padding: 2rem 1rem;
+    }
 
-.header { 
-  background: linear-gradient(135deg, #0a4a38 0%, #0d5c48 100%); 
-  color: white; 
-  padding: 2rem; 
-  border-radius: 8px; 
-  margin-bottom: 2rem;
-}
-.header h1 { font-size: 28px; margin-bottom: 0.5rem; }
-.header .status-sync { font-size: 12px; opacity: 0.8; }
+    .container { max-width: 1200px; margin: 0 auto; }
 
-.config-box {
-  background: #fff3cd;
-  border-left: 4px solid #ff9800;
-  padding: 1rem;
-  margin-bottom: 1rem;
-  border-radius: 4px;
-}
-.config-box h3 { color: #f57c00; margin-bottom: 0.5rem; }
-.config-input { width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; font-family: monospace; font-size: 12px; }
-.config-btn { background: #0a4a38; color: white; padding: 8px 16px; border: none; border-radius: 4px; cursor: pointer; margin-top: 8px; }
-.config-btn:hover { background: #0d5c48; }
+    .header {
+      background: linear-gradient(135deg, #0a4a38 0%, #0d5c48 100%);
+      color: white;
+      padding: 2rem;
+      border-radius: 8px;
+      margin-bottom: 2rem;
+    }
 
-.resumo-mes { 
-  background: white; 
-  border-radius: 8px; 
-  padding: 2rem; 
-  margin-bottom: 2rem; 
-  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-}
-.resumo-grid { 
-  display: grid; 
-  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); 
-  gap: 1rem;
-}
-.resumo-item { text-align: center; padding: 1rem; background: #fafafa; border-radius: 8px; }
-.resumo-label { font-size: 12px; color: #666; margin-bottom: 8px; }
-.resumo-valor { font-size: 24px; font-weight: bold; color: #0a4a38; }
+    .header h1 { font-size: 28px; margin-bottom: 0.5rem; }
+    .header .status-sync { font-size: 12px; opacity: 0.8; }
 
-.alertas-box {
-  background: #ffebee;
-  border-left: 4px solid #c62828;
-  padding: 1rem;
-  margin-bottom: 1rem;
-  border-radius: 4px;
-}
-.alertas-box h3 { color: #c62828; margin-bottom: 0.5rem; }
-.alertas-list { font-size: 12px; color: #6f000b; }
-.alertas-list li { margin-bottom: 6px; }
+    .config-box {
+      background: #fff3cd;
+      border-left: 4px solid #ff9800;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      border-radius: 4px;
+    }
 
-.grid-pilares { 
-  display: grid; 
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); 
-  gap: 1.5rem; 
-  margin-bottom: 2rem;
-}
-.pilar { 
-  background: white; 
-  border-radius: 8px; 
-  padding: 1.5rem; 
-  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-}
-.pilar-header { display: flex; align-items: center; gap: 8px; margin-bottom: 1rem; }
-.pilar-icon { width: 32px; height: 32px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-weight: bold; color: white; }
-.pilar-title { font-size: 16px; font-weight: bold; }
+    .config-box h3 { color: #f57c00; margin-bottom: 0.5rem; }
 
-.operacao .pilar-icon { background: #0a4a38; }
-.equipe .pilar-icon { background: #185FA5; }
-.qualidade .pilar-icon { background: #0F6E56; }
-.resultado .pilar-icon { background: #BA7517; }
+    .config-input {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-family: monospace;
+      font-size: 12px;
+    }
 
-.metricas { display: flex; flex-direction: column; gap: 10px; }
-.metrica { 
-  padding: 10px; 
-  background: #f9f9f9; 
-  border-radius: 6px; 
-  border-left: 3px solid #ccc;
-}
-.metrica.ok { border-left-color: #4caf50; }
-.metrica.alert { border-left-color: #ff9800; }
-.metrica.critical { border-left-color: #f44336; }
-.metrica-label { font-size: 11px; color: #666; }
-.metrica-valor { font-size: 20px; font-weight: bold; margin: 4px 0; }
-.metrica-status { font-size: 10px; color: #666; }
+    .config-btn {
+      background: #0a4a38;
+      color: white;
+      padding: 8px 16px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-top: 8px;
+    }
 
-.graficos { 
-  display: grid; 
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
-  gap: 1.5rem; 
-  margin-bottom: 2rem;
-}
-.grafico-container { 
-  background: white; 
-  border-radius: 8px; 
-  padding: 1.5rem; 
-  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-}
-.grafico-titulo { font-size: 14px; font-weight: bold; margin-bottom: 1rem; color: #0a4a38; }
-.grafico { position: relative; width: 100%; height: 250px; }
+    .config-btn:hover { background: #0d5c48; }
 
-.carregando { 
-  text-align: center; 
-  padding: 2rem; 
-  color: #666;
-}
-.spinner { 
-  display: inline-block; 
-  width: 30px; 
-  height: 30px; 
-  border: 3px solid #f3f3f3; 
-  border-top: 3px solid #0a4a38; 
-  border-radius: 50%; 
-  animation: spin 1s linear infinite;
-}
-@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    .resumo-mes {
+      background: white;
+      border-radius: 8px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
 
-.loading-message { font-size: 12px; color: #999; margin-top: 1rem; }
-</style>
+    .resumo-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 1rem;
+    }
+
+    .resumo-item {
+      text-align: center;
+      padding: 1rem;
+      background: #fafafa;
+      border-radius: 8px;
+    }
+
+    .resumo-label { font-size: 12px; color: #666; margin-bottom: 8px; }
+    .resumo-valor { font-size: 24px; font-weight: bold; color: #0a4a38; }
+
+    .alertas-box {
+      background: #ffebee;
+      border-left: 4px solid #c62828;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      border-radius: 4px;
+    }
+
+    .alertas-box h3 { color: #c62828; margin-bottom: 0.5rem; }
+
+    .alertas-list {
+      font-size: 12px;
+      color: #6f000b;
+      padding-left: 1rem;
+    }
+
+    .alertas-list li { margin-bottom: 6px; }
+
+    .grid-pilares {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .pilar {
+      background: white;
+      border-radius: 8px;
+      padding: 1.5rem;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+
+    .pilar-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 1rem;
+    }
+
+    .pilar-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      color: white;
+    }
+
+    .pilar-title { font-size: 16px; font-weight: bold; }
+
+    .operacao .pilar-icon { background: #0a4a38; }
+    .equipe .pilar-icon { background: #185FA5; }
+    .qualidade .pilar-icon { background: #0F6E56; }
+    .resultado .pilar-icon { background: #BA7517; }
+
+    .metricas {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .metrica {
+      padding: 10px;
+      background: #f9f9f9;
+      border-radius: 6px;
+      border-left: 3px solid #ccc;
+    }
+
+    .metrica.ok { border-left-color: #4caf50; }
+    .metrica.alert { border-left-color: #ff9800; }
+    .metrica.critical { border-left-color: #f44336; }
+
+    .metrica-label { font-size: 11px; color: #666; }
+    .metrica-valor { font-size: 20px; font-weight: bold; margin: 4px 0; }
+    .metrica-status { font-size: 10px; color: #666; }
+
+    .graficos {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .grafico-container {
+      background: white;
+      border-radius: 8px;
+      padding: 1.5rem;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+
+    .grafico-titulo {
+      font-size: 14px;
+      font-weight: bold;
+      margin-bottom: 1rem;
+      color: #0a4a38;
+    }
+
+    .grafico {
+      position: relative;
+      width: 100%;
+      height: 250px;
+    }
+
+    .carregando {
+      text-align: center;
+      padding: 2rem;
+      color: #666;
+      width: 100%;
+    }
+
+    .spinner {
+      display: inline-block;
+      width: 30px;
+      height: 30px;
+      border: 3px solid #f3f3f3;
+      border-top: 3px solid #0a4a38;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .loading-message { font-size: 12px; color: #999; margin-top: 1rem; }
+
+    .erro-box {
+      background: #fff4f4;
+      border-left: 4px solid #d32f2f;
+      color: #7f1d1d;
+      padding: 12px;
+      border-radius: 6px;
+      margin-top: 12px;
+      font-size: 13px;
+    }
+  </style>
 </head>
 <body>
 
 <div class="container">
 
-<div class="header">
-  <h1>Dashboard BR Med</h1>
-  <div class="status-sync">🔄 Atualizado em tempo real com Google Sheets</div>
-</div>
-
-<div class="config-box">
-  <h3>⚙️ Configuração - Google Sheets</h3>
-  <p style="font-size: 12px; margin-bottom: 0.5rem;">Cole aqui o ID da sua planilha Google Sheets:</p>
-  <input type="text" id="sheetId" class="config-input" placeholder="146zUQx4hx6-1qr70ikudYrknfxtbTR" value="">
-  <button class="config-btn" onclick="salvarConfiguracao()">✓ Usar esta Planilha</button>
-  <p style="font-size: 11px; margin-top: 0.5rem; color: #555;">
-    📍 Como encontrar: Abra sua planilha Google Sheets → URL = docs.google.com/spreadsheets/d/<strong>SHEET_ID</strong>/edit
-  </p>
-</div>
-
-<div id="conteudo" style="display: none;">
-
-<div class="resumo-mes">
-  <h2 style="margin-bottom: 1rem;">Resumo Operacional</h2>
-  <div class="resumo-grid" id="resumoGrid">
-    <div class="carregando"><div class="spinner"></div><div class="loading-message">Carregando dados...</div></div>
+  <div class="header">
+    <h1>Dashboard BR Med</h1>
+    <div class="status-sync">🔄 Atualizado em tempo real com Google Sheets</div>
   </div>
-</div>
 
-<div class="alertas-box" id="alertasBox" style="display: none;">
-  <h3>⚠️ Alertas Operacionais</h3>
-  <ul class="alertas-list" id="alertasList"></ul>
-</div>
+  <div class="config-box">
+    <h3>⚙️ Configuração - Google Sheets</h3>
+    <p style="font-size: 12px; margin-bottom: 0.5rem;">Cole aqui o ID da sua planilha Google Sheets:</p>
+    <input
+      type="text"
+      id="sheetId"
+      class="config-input"
+      placeholder="146zUQx4hx6-1qr70ikudYrknfxtbTR-0F4h-QhkepZI"
+      value=""
+    >
+    <button class="config-btn" onclick="salvarConfiguracao()">✓ Usar esta Planilha</button>
+    <p style="font-size: 11px; margin-top: 0.5rem; color: #555;">
+      📍 Como encontrar: abra sua planilha → URL = docs.google.com/spreadsheets/d/<strong>SHEET_ID</strong>/edit
+    </p>
+    <div id="erroBox" class="erro-box" style="display:none;"></div>
+  </div>
 
-<h2 style="margin-bottom: 1rem; color: #0a4a38; font-size: 18px;">Pilares de Performance</h2>
+  <div id="conteudo" style="display: none;">
 
-<div class="grid-pilares" id="pilaresGrid">
-  <div class="carregando"><div class="spinner"></div><div class="loading-message">Carregando dados...</div></div>
-</div>
+    <div class="resumo-mes">
+      <h2 style="margin-bottom: 1rem;">Resumo Operacional</h2>
+      <div class="resumo-grid" id="resumoGrid">
+        <div class="carregando">
+          <div class="spinner"></div>
+          <div class="loading-message">Carregando dados...</div>
+        </div>
+      </div>
+    </div>
 
-<h2 style="margin-bottom: 1rem; color: #0a4a38; font-size: 18px;">Análises Detalhadas</h2>
+    <div class="alertas-box" id="alertasBox" style="display: none;">
+      <h3>⚠️ Alertas Operacionais</h3>
+      <ul class="alertas-list" id="alertasList"></ul>
+    </div>
 
-<div class="graficos" id="graficosGrid">
-  <div class="carregando"><div class="spinner"></div><div class="loading-message">Carregando gráficos...</div></div>
-</div>
+    <h2 style="margin-bottom: 1rem; color: #0a4a38; font-size: 18px;">Pilares de Performance</h2>
 
-</div>
+    <div class="grid-pilares" id="pilaresGrid">
+      <div class="carregando">
+        <div class="spinner"></div>
+        <div class="loading-message">Carregando dados...</div>
+      </div>
+    </div>
+
+    <h2 style="margin-bottom: 1rem; color: #0a4a38; font-size: 18px;">Análises Detalhadas</h2>
+
+    <div class="graficos" id="graficosGrid">
+      <div class="carregando">
+        <div class="spinner"></div>
+        <div class="loading-message">Carregando gráficos...</div>
+      </div>
+    </div>
+
+  </div>
 
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 
 <script>
-const CONFIG_KEY = 'br_med_sheet_id';
-let dadosCache = {};
+  const CONFIG_KEY = 'br_med_sheet_id';
 
-window.addEventListener('load', () => {
-  const sheetId = localStorage.getItem(CONFIG_KEY);
-  if (sheetId) {
-    document.getElementById('sheetId').value = sheetId;
+  let dadosCache = {
+    resumo: [],
+    faturamento: [],
+    profissionais: [],
+    origem: [],
+    operacao: [],
+    equipe: [],
+    qualidade: [],
+    resultado: [],
+    alertas: []
+  };
+
+  let charts = [];
+
+  const GIDS = {
+    resumo: 0,
+    faturamento: 1852761433,
+    profissionais: 576299438,
+    origem: 1391759105,
+    operacao: 323502276,
+    equipe: 2133614227,
+    qualidade: 1456590032,
+    resultado: 1070002876,
+    alertas: 983090401
+  };
+
+  window.addEventListener('load', () => {
+    const sheetId = localStorage.getItem(CONFIG_KEY);
+    if (sheetId) {
+      document.getElementById('sheetId').value = sheetId;
+      document.getElementById('conteudo').style.display = 'block';
+      carregarDados();
+    }
+  });
+
+  function mostrarErro(msg) {
+    const box = document.getElementById('erroBox');
+    box.style.display = 'block';
+    box.textContent = msg;
+  }
+
+  function esconderErro() {
+    const box = document.getElementById('erroBox');
+    box.style.display = 'none';
+    box.textContent = '';
+  }
+
+  function salvarConfiguracao() {
+    const sheetId = document.getElementById('sheetId').value.trim();
+
+    if (!sheetId) {
+      alert('Por favor, cole o ID da planilha.');
+      return;
+    }
+
+    localStorage.setItem(CONFIG_KEY, sheetId);
     document.getElementById('conteudo').style.display = 'block';
     carregarDados();
   }
-});
 
-function salvarConfiguracao() {
-  const sheetId = document.getElementById('sheetId').value.trim();
-  if (!sheetId) {
-    alert('Por favor, cole o ID da planilha');
-    return;
-  }
-  localStorage.setItem(CONFIG_KEY, sheetId);
-  document.getElementById('conteudo').style.display = 'block';
-  carregarDados();
-}
+  async function carregarDados() {
+    const sheetId = localStorage.getItem(CONFIG_KEY);
 
-async function carregarDados() {
-  const sheetId = localStorage.getItem(CONFIG_KEY);
-  try {
-    const resumo = await carregarAba(gid=0, 'RESUMO_MENSAL');
-    const faturamento = await carregarAba(gid=1852761433, 'FATURAMENTO');
-    const profissionais = await carregarAba(gid=576299438, 'PROFISSIONAIS');
-    const origem = await carregarAba(gid=1391759105, 'ORIGEM');
-    const operacao = await carregarAba(gid=323502276, 'INDICADORES_OPERACAO');
-    const equipe = await carregarAba(gid=2133614227, 'INDICADORES_EQUIPE');
-    const qualidade = await carregarAba(gid=1456590032, 'INDICADORES_QUALIDADE');
-    const resultado = await carregarAba(gid=1070002876, 'INDICADORES_RESULTADO');
-    const alertas = await carregarAba(gid=983090401, 'ALERTAS');
+    if (!sheetId) {
+      mostrarErro('Informe o ID da planilha para continuar.');
+      return;
+    }
 
-    dadosCache = {
-      resumo: resumo || [],
-      faturamento: faturamento || [],
-      profissionais: profissionais || [],
-      origem: origem || [],
-      operacao: operacao || [],
-      equipe: equipe || [],
-      qualidade: qualidade || [],
-      resultado: resultado || [],
-      alertas: alertas || []
-    };
+    esconderErro();
 
-    renderizarResumo();
-    renderizarAlertas();
-    renderizarPilares();
-    renderizarGraficos();
+    try {
+      const [
+        resumo,
+        faturamento,
+        profissionais,
+        origem,
+        operacao,
+        equipe,
+        qualidade,
+        resultado,
+        alertas
+      ] = await Promise.all([
+        carregarAba(sheetId, GIDS.resumo),
+        carregarAba(sheetId, GIDS.faturamento),
+        carregarAba(sheetId, GIDS.profissionais),
+        carregarAba(sheetId, GIDS.origem),
+        carregarAba(sheetId, GIDS.operacao),
+        carregarAba(sheetId, GIDS.equipe),
+        carregarAba(sheetId, GIDS.qualidade),
+        carregarAba(sheetId, GIDS.resultado),
+        carregarAba(sheetId, GIDS.alertas)
+      ]);
 
-  } catch (error) {
-    console.error('Erro ao carregar dados:', error);
-    alert('Erro ao carregar dados. Verifique o SHEET_ID e permissões de compartilhamento.');
-  }
-}
+      dadosCache = {
+        resumo: resumo || [],
+        faturamento: faturamento || [],
+        profissionais: profissionais || [],
+        origem: origem || [],
+        operacao: operacao || [],
+        equipe: equipe || [],
+        qualidade: qualidade || [],
+        resultado: resultado || [],
+        alertas: alertas || []
+      };
 
-async function carregarAba(sheetId, abaNome) {
-  const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv&sheet=${abaNome}`;
-  
-  try {
-    const response = await fetch(url);
-    const csv = await response.text();
-    return parseCSV(csv);
-  } catch (error) {
-    console.warn(`Aba ${abaNome} não encontrada ou erro de acesso`);
-    return [];
-  }
-}
+      console.log('Dados carregados:', dadosCache);
 
-function parseCSV(csv) {
-  const linhas = csv.split('\n');
-  if (linhas.length < 2) return [];
-  
-  const headers = linhas[0].split(',').map(h => h.trim());
-  const dados = [];
-  
-  for (let i = 1; i < linhas.length; i++) {
-    if (linhas[i].trim()) {
-      const valores = linhas[i].split(',').map(v => v.trim());
-      const row = {};
-      headers.forEach((h, idx) => {
-        row[h] = valores[idx] || '';
-      });
-      dados.push(row);
+      renderizarResumo();
+      renderizarAlertas();
+      renderizarPilares();
+      renderizarGraficos();
+
+    } catch (error) {
+      console.error('Erro ao carregar dados:', error);
+      mostrarErro('Erro ao carregar os dados. Verifique se a planilha está pública e se os gids estão corretos.');
     }
   }
-  return dados;
-}
 
-function renderizarResumo() {
-  const resumo = dadosCache.resumo[0] || {};
-  const html = `
-    <div class="resumo-item">
-      <div class="resumo-label">Faturamento</div>
-      <div class="resumo-valor">R$ ${resumo.Faturamento || '-'}</div>
-    </div>
-    <div class="resumo-item">
-      <div class="resumo-label">Atendimentos</div>
-      <div class="resumo-valor">${resumo.Atendimentos || '-'}</div>
-    </div>
-    <div class="resumo-item">
-      <div class="resumo-label">Ticket Médio</div>
-      <div class="resumo-valor">R$ ${resumo.Ticket_Médio || '-'}</div>
-    </div>
-    <div class="resumo-item">
-      <div class="resumo-label">Margem</div>
-      <div class="resumo-valor">${resumo.Margem || '-'}%</div>
-    </div>
-    <div class="resumo-item">
-      <div class="resumo-label">Crescimento</div>
-      <div class="resumo-valor">${resumo.Crescimento || '-'}%</div>
-    </div>
-    <div class="resumo-item">
-      <div class="resumo-label">NPS</div>
-      <div class="resumo-valor">${resumo.NPS || '-'}</div>
-    </div>
-  `;
-  document.getElementById('resumoGrid').innerHTML = html;
-}
+  async function carregarAba(sheetId, gid) {
+    const url = `https://docs.google.com/spreadsheets/d/${sheetId}/export?format=csv&gid=${gid}`;
 
-function renderizarAlertas() {
-  const alertas = dadosCache.alertas;
-  if (alertas.length === 0) return;
-  
-  document.getElementById('alertasBox').style.display = 'block';
-  const html = alertas.map(a => 
-    `<li><strong>${a.Categoria}:</strong> ${a.Indicador} (${a.Valor}/${a.Meta}) → ${a.Ação}</li>`
-  ).join('');
-  document.getElementById('alertasList').innerHTML = html;
-}
+    try {
+      const response = await fetch(url);
 
-function renderizarPilares() {
-  const pilares = [
-    { id: 'operacao', titulo: 'Operação', icon: '⚙️', dados: dadosCache.operacao },
-    { id: 'equipe', titulo: 'Equipe', icon: '👥', dados: dadosCache.equipe },
-    { id: 'qualidade', titulo: 'Qualidade', icon: '⭐', dados: dadosCache.qualidade },
-    { id: 'resultado', titulo: 'Resultado', icon: '💰', dados: dadosCache.resultado }
-  ];
+      if (!response.ok) {
+        throw new Error(`Erro HTTP ${response.status} no gid ${gid}`);
+      }
 
-  const html = pilares.map(p => {
-    const metricas = p.dados.map(m => {
-      const statusClass = m.Status === 'OK' ? 'ok' : (m.Status === 'ALERT' ? 'alert' : 'critical');
+      const csv = await response.text();
+
+      if (!csv || !csv.trim()) {
+        return [];
+      }
+
+      return parseCSV(csv);
+    } catch (error) {
+      console.warn(`Erro ao carregar aba com gid ${gid}:`, error);
+      return [];
+    }
+  }
+
+  function parseCSV(csv) {
+    const linhas = csv
+      .replace(/\r/g, '')
+      .split('\n')
+      .filter(l => l.trim() !== '');
+
+    if (linhas.length < 2) return [];
+
+    function separarLinhaCSV(linha) {
+      const resultado = [];
+      let atual = '';
+      let dentroAspas = false;
+
+      for (let i = 0; i < linha.length; i++) {
+        const char = linha[i];
+        const prox = linha[i + 1];
+
+        if (char === '"') {
+          if (dentroAspas && prox === '"') {
+            atual += '"';
+            i++;
+          } else {
+            dentroAspas = !dentroAspas;
+          }
+        } else if (char === ',' && !dentroAspas) {
+          resultado.push(atual.trim());
+          atual = '';
+        } else {
+          atual += char;
+        }
+      }
+
+      resultado.push(atual.trim());
+      return resultado;
+    }
+
+    const headers = separarLinhaCSV(linhas[0]).map(h => h.trim());
+    const dados = [];
+
+    for (let i = 1; i < linhas.length; i++) {
+      const valores = separarLinhaCSV(linhas[i]);
+      const row = {};
+
+      headers.forEach((h, idx) => {
+        row[h] = (valores[idx] || '').trim();
+      });
+
+      const linhaVazia = Object.values(row).every(v => v === '');
+      if (!linhaVazia) dados.push(row);
+    }
+
+    return dados;
+  }
+
+  function valorSeguro(valor, fallback = '-') {
+    return (valor !== undefined && valor !== null && String(valor).trim() !== '') ? valor : fallback;
+  }
+
+  function numeroSeguro(valor) {
+    if (valor === undefined || valor === null) return 0;
+    const limpo = String(valor)
+      .replace(/\./g, '')
+      .replace(',', '.')
+      .replace(/[^\d.-]/g, '');
+    return parseFloat(limpo) || 0;
+  }
+
+  function renderizarResumo() {
+    const resumo = dadosCache.resumo[0] || {};
+
+    const html = `
+      <div class="resumo-item">
+        <div class="resumo-label">Faturamento</div>
+        <div class="resumo-valor">R$ ${valorSeguro(resumo.Faturamento)}</div>
+      </div>
+      <div class="resumo-item">
+        <div class="resumo-label">Atendimentos</div>
+        <div class="resumo-valor">${valorSeguro(resumo.Atendimentos)}</div>
+      </div>
+      <div class="resumo-item">
+        <div class="resumo-label">Ticket Médio</div>
+        <div class="resumo-valor">R$ ${valorSeguro(resumo.Ticket_Médio)}</div>
+      </div>
+      <div class="resumo-item">
+        <div class="resumo-label">Margem</div>
+        <div class="resumo-valor">${valorSeguro(resumo.Margem)}%</div>
+      </div>
+      <div class="resumo-item">
+        <div class="resumo-label">Crescimento</div>
+        <div class="resumo-valor">${valorSeguro(resumo.Crescimento)}%</div>
+      </div>
+      <div class="resumo-item">
+        <div class="resumo-label">NPS</div>
+        <div class="resumo-valor">${valorSeguro(resumo.NPS)}</div>
+      </div>
+    `;
+
+    document.getElementById('resumoGrid').innerHTML = html;
+  }
+
+  function renderizarAlertas() {
+    const alertas = dadosCache.alertas || [];
+
+    if (alertas.length === 0) {
+      document.getElementById('alertasBox').style.display = 'none';
+      return;
+    }
+
+    document.getElementById('alertasBox').style.display = 'block';
+
+    const html = alertas.map(a => `
+      <li>
+        <strong>${valorSeguro(a.Categoria)}:</strong>
+        ${valorSeguro(a.Indicador)} (${valorSeguro(a.Valor)}/${valorSeguro(a.Meta)}) → ${valorSeguro(a.Ação)}
+      </li>
+    `).join('');
+
+    document.getElementById('alertasList').innerHTML = html;
+  }
+
+  function renderizarPilares() {
+    const pilares = [
+      { id: 'operacao', titulo: 'Operação', icon: '⚙️', dados: dadosCache.operacao || [] },
+      { id: 'equipe', titulo: 'Equipe', icon: '👥', dados: dadosCache.equipe || [] },
+      { id: 'qualidade', titulo: 'Qualidade', icon: '⭐', dados: dadosCache.qualidade || [] },
+      { id: 'resultado', titulo: 'Resultado', icon: '💰', dados: dadosCache.resultado || [] }
+    ];
+
+    const html = pilares.map(p => {
+      const metricas = p.dados.map(m => {
+        const status = String(m.Status || '').toUpperCase();
+        const statusClass = status === 'OK' ? 'ok' : (status === 'ALERT' ? 'alert' : 'critical');
+
+        return `
+          <div class="metrica ${statusClass}">
+            <div class="metrica-label">${valorSeguro(m.Indicador)}</div>
+            <div class="metrica-valor">${valorSeguro(m.Valor)}</div>
+            <div class="metrica-status">Meta: ${valorSeguro(m.Meta)} | ${valorSeguro(m.Status)}</div>
+          </div>
+        `;
+      }).join('');
+
       return `
-        <div class="metrica ${statusClass}">
-          <div class="metrica-label">${m.Indicador}</div>
-          <div class="metrica-valor">${m.Valor}</div>
-          <div class="metrica-status">Meta: ${m.Meta} | ${m.Status}</div>
+        <div class="pilar ${p.id}">
+          <div class="pilar-header">
+            <div class="pilar-icon">${p.icon}</div>
+            <div class="pilar-title">${p.titulo}</div>
+          </div>
+          <div class="metricas">${metricas || '<div class="metrica"><div class="metrica-label">Sem dados</div></div>'}</div>
         </div>
       `;
     }).join('');
 
-    return `
-      <div class="pilar ${p.id}">
-        <div class="pilar-header">
-          <div class="pilar-icon">${p.icon}</div>
-          <div class="pilar-title">${p.titulo}</div>
+    document.getElementById('pilaresGrid').innerHTML = html;
+  }
+
+  function destruirGraficos() {
+    charts.forEach(chart => {
+      try {
+        chart.destroy();
+      } catch (_) {}
+    });
+    charts = [];
+  }
+
+  function renderizarGraficos() {
+    destruirGraficos();
+
+    const html = `
+      <div class="grafico-container">
+        <div class="grafico-titulo">Evolução de Faturamento</div>
+        <div class="grafico">
+          <canvas id="faturamentoChart"></canvas>
         </div>
-        <div class="metricas">${metricas}</div>
+      </div>
+      <div class="grafico-container">
+        <div class="grafico-titulo">Desempenho por Profissional</div>
+        <div class="grafico">
+          <canvas id="profissionalChart"></canvas>
+        </div>
+      </div>
+      <div class="grafico-container">
+        <div class="grafico-titulo">Origem dos Pacientes</div>
+        <div class="grafico">
+          <canvas id="origemChart"></canvas>
+        </div>
+      </div>
+      <div class="grafico-container">
+        <div class="grafico-titulo">Satisfação por Profissional</div>
+        <div class="grafico">
+          <canvas id="npsChart"></canvas>
+        </div>
       </div>
     `;
-  }).join('');
 
-  document.getElementById('pilaresGrid').innerHTML = html;
-}
+    document.getElementById('graficosGrid').innerHTML = html;
 
-function renderizarGraficos() {
-  const html = `
-    <div class="grafico-container">
-      <div class="grafico-titulo">Evolução de Faturamento</div>
-      <div class="grafico">
-        <canvas id="faturamentoChart"></canvas>
-      </div>
-    </div>
-    <div class="grafico-container">
-      <div class="grafico-titulo">Desempenho por Profissional</div>
-      <div class="grafico">
-        <canvas id="profissionalChart"></canvas>
-      </div>
-    </div>
-    <div class="grafico-container">
-      <div class="grafico-titulo">Origem dos Pacientes</div>
-      <div class="grafico">
-        <canvas id="origemChart"></canvas>
-      </div>
-    </div>
-    <div class="grafico-container">
-      <div class="grafico-titulo">Satisfação por Profissional</div>
-      <div class="grafico">
-        <canvas id="npsChart"></canvas>
-      </div>
-    </div>
-  `;
-
-  document.getElementById('graficosGrid').innerHTML = html;
-
-  setTimeout(() => {
-    criarGraficoFaturamento();
-    criarGraficoProfissionais();
-    criarGraficoOrigem();
-    criarGraficoNPS();
-  }, 100);
-}
-
-function criarGraficoFaturamento() {
-  const dados = dadosCache.faturamento;
-  if (dados.length === 0) return;
-
-  const labels = dados.map(d => d.Mês);
-  const faturamento = dados.map(d => parseFloat(d.Faturamento) || 0);
-  const meta = dados.map(d => parseFloat(d.Meta) || 0);
-
-  new Chart(document.getElementById('faturamentoChart'), {
-    type: 'line',
-    data: {
-      labels: labels,
-      datasets: [
-        {
-          label: 'Faturamento',
-          data: faturamento,
-          borderColor: '#BA7517',
-          backgroundColor: 'rgba(186, 117, 23, 0.1)',
-          fill: true,
-          tension: 0.4,
-          pointRadius: 5
-        },
-        {
-          label: 'Meta',
-          data: meta,
-          borderColor: '#999',
-          borderDash: [5, 5],
-          fill: false,
-          pointRadius: 0
-        }
-      ]
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      plugins: { legend: { display: true } },
-      scales: { y: { beginAtZero: true } }
-    }
-  });
-}
-
-function criarGraficoProfissionais() {
-  const dados = dadosCache.profissionais;
-  if (dados.length === 0) return;
-
-  const labels = dados.map(d => d.Nome);
-  const atendimentos = dados.map(d => parseFloat(d.Atendimentos) || 0);
-
-  new Chart(document.getElementById('profissionalChart'), {
-    type: 'bar',
-    data: {
-      labels: labels,
-      datasets: [{
-        label: 'Atendimentos',
-        data: atendimentos,
-        backgroundColor: '#185FA5',
-        borderRadius: 4
-      }]
-    },
-    options: {
-      indexAxis: 'y',
-      responsive: true,
-      maintainAspectRatio: false,
-      plugins: { legend: { display: false } },
-      scales: { x: { beginAtZero: true } }
-    }
-  });
-}
-
-function criarGraficoOrigem() {
-  const dados = dadosCache.origem;
-  if (dados.length === 0) return;
-
-  const labels = dados.map(d => d.Origem);
-  const quantidade = dados.map(d => parseFloat(d.Quantidade) || 0);
-
-  const cores = ['#0a4a38', '#185FA5', '#0F6E56', '#BA7517'];
-
-  new Chart(document.getElementById('origemChart'), {
-    type: 'doughnut',
-    data: {
-      labels: labels,
-      datasets: [{
-        data: quantidade,
-        backgroundColor: cores.slice(0, labels.length)
-      }]
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      plugins: { legend: { display: true } }
-    }
-  });
-}
-
-function criarGraficoNPS() {
-  const dados = dadosCache.profissionais;
-  if (dados.length === 0) return;
-
-  const labels = dados.map(d => d.Nome);
-  const nps = dados.map(d => parseFloat(d.NPS) || 0);
-
-  new Chart(document.getElementById('npsChart'), {
-    type: 'radar',
-    data: {
-      labels: labels,
-      datasets: [{
-        label: 'NPS',
-        data: nps,
-        borderColor: '#0F6E56',
-        backgroundColor: 'rgba(15, 110, 86, 0.1)',
-        pointBackgroundColor: '#0F6E56'
-      }]
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      plugins: { legend: { display: false } },
-      scales: { r: { beginAtZero: true, max: 60 } }
-    }
-  });
-}
-
-setInterval(() => {
-  if (localStorage.getItem(CONFIG_KEY)) {
-    carregarDados();
+    setTimeout(() => {
+      criarGraficoFaturamento();
+      criarGraficoProfissionais();
+      criarGraficoOrigem();
+      criarGraficoNPS();
+    }, 100);
   }
-}, 5 * 60 * 1000);
+
+  function criarGraficoFaturamento() {
+    const dados = dadosCache.faturamento || [];
+    if (dados.length === 0) return;
+
+    const labels = dados.map(d => valorSeguro(d.Mês, ''));
+    const faturamento = dados.map(d => numeroSeguro(d.Faturamento));
+    const meta = dados.map(d => numeroSeguro(d.Meta));
+
+    const ctx = document.getElementById('faturamentoChart');
+    if (!ctx) return;
+
+    const chart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels,
+        datasets: [
+          {
+            label: 'Faturamento',
+            data: faturamento,
+            borderColor: '#BA7517',
+            backgroundColor: 'rgba(186, 117, 23, 0.1)',
+            fill: true,
+            tension: 0.4,
+            pointRadius: 5
+          },
+          {
+            label: 'Meta',
+            data: meta,
+            borderColor: '#999',
+            borderDash: [5, 5],
+            fill: false,
+            pointRadius: 0
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { display: true } },
+        scales: { y: { beginAtZero: true } }
+      }
+    });
+
+    charts.push(chart);
+  }
+
+  function criarGraficoProfissionais() {
+    const dados = dadosCache.profissionais || [];
+    if (dados.length === 0) return;
+
+    const labels = dados.map(d => valorSeguro(d.Nome, ''));
+    const atendimentos = dados.map(d => numeroSeguro(d.Atendimentos));
+
+    const ctx = document.getElementById('profissionalChart');
+    if (!ctx) return;
+
+    const chart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels,
+        datasets: [{
+          label: 'Atendimentos',
+          data: atendimentos,
+          backgroundColor: '#185FA5',
+          borderRadius: 4
+        }]
+      },
+      options: {
+        indexAxis: 'y',
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { display: false } },
+        scales: { x: { beginAtZero: true } }
+      }
+    });
+
+    charts.push(chart);
+  }
+
+  function criarGraficoOrigem() {
+    const dados = dadosCache.origem || [];
+    if (dados.length === 0) return;
+
+    const labels = dados.map(d => valorSeguro(d.Origem, ''));
+    const quantidade = dados.map(d => numeroSeguro(d.Quantidade));
+    const cores = ['#0a4a38', '#185FA5', '#0F6E56', '#BA7517', '#7b8fa1', '#5c6bc0'];
+
+    const ctx = document.getElementById('origemChart');
+    if (!ctx) return;
+
+    const chart = new Chart(ctx, {
+      type: 'doughnut',
+      data: {
+        labels,
+        datasets: [{
+          data: quantidade,
+          backgroundColor: cores.slice(0, labels.length)
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { display: true } }
+      }
+    });
+
+    charts.push(chart);
+  }
+
+  function criarGraficoNPS() {
+    const dados = dadosCache.profissionais || [];
+    if (dados.length === 0) return;
+
+    const labels = dados.map(d => valorSeguro(d.Nome, ''));
+    const nps = dados.map(d => numeroSeguro(d.NPS));
+
+    const ctx = document.getElementById('npsChart');
+    if (!ctx) return;
+
+    const chart = new Chart(ctx, {
+      type: 'radar',
+      data: {
+        labels,
+        datasets: [{
+          label: 'NPS',
+          data: nps,
+          borderColor: '#0F6E56',
+          backgroundColor: 'rgba(15, 110, 86, 0.1)',
+          pointBackgroundColor: '#0F6E56'
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { display: false } },
+        scales: {
+          r: {
+            beginAtZero: true,
+            max: 100
+          }
+        }
+      }
+    });
+
+    charts.push(chart);
+  }
+
+  setInterval(() => {
+    if (localStorage.getItem(CONFIG_KEY)) {
+      carregarDados();
+    }
+  }, 5 * 60 * 1000);
 </script>
 
 </body>
